@@ -1,0 +1,10 @@
+-----------------------------  iir32.pjt - Debug  -----------------------------
+[Iir32_t.c] "C:\Program Files\Texas Instruments\C5500 Code Generation Tools 4.3.8\bin\cl55" -g -q -fr"C:/Userdata/My Projects/DSP library/dsplib_2.40.00/EXAMPLES/iir32/Debug" -i"../../include" -d"_DEBUG" -@"Debug.lkf" "Iir32_t.c"
+
+[TEST.C] "C:\Program Files\Texas Instruments\C5500 Code Generation Tools 4.3.8\bin\cl55" -g -q -fr"C:/Userdata/My Projects/DSP library/dsplib_2.40.00/EXAMPLES/iir32/Debug" -i"../../include" -d"_DEBUG" -@"Debug.lkf" "TEST.C"
+
+[Linking...] "C:\Program Files\Texas Instruments\C5500 Code Generation Tools 4.3.8\bin\cl55" -@"Debug.lkf"
+<Linking>
+
+Build Complete,
+  0 Errors, 0 Warnings, 0 Remarks.

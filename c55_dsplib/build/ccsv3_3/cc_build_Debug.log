@@ -1,0 +1,11 @@
+-----------------------------  dsplib.pjt - Debug  -----------------------------
+[iircas5.asm] "C:\CCStudio_v3.3\C5500\cgt441\bin\cl55" -g -fr"C:/ti/dsplib/55x_src/Debug" -d"_DEBUG" -vcore:3.0 --memory_model=huge -@"Debug.lkf" "iircas5.asm"
+
+[iircas51.asm] "C:\CCStudio_v3.3\C5500\cgt441\bin\cl55" -g -fr"C:/ti/dsplib/55x_src/Debug" -d"_DEBUG" -vcore:3.0 --memory_model=huge -@"Debug.lkf" "iircas51.asm"
+
+[Archiving...] "C:\CCStudio_v3.3\C5500\cgt441\bin\ar55" @"Debug.lkf"
+  ==>  new archive 'C:\ti\dsplib\55x_src\Debug\dsplib.lib'
+  ==>  building archive 'C:\ti\dsplib\55x_src\Debug\dsplib.lib'
+
+Build Complete,
+  0 Errors, 0 Warnings, 0 Remarks.

@@ -1,0 +1,35 @@
+; Code Composer Project File, Version 2.0 (do not modify or remove this line)
+
+[Project Settings]
+ProjectDir="c:\projects\dsplib\55x\55xdsplib\EXAMPLES\neg\"
+ProjectType=Executable
+CPUFamily=TMS320C55XX
+Tool="Compiler"
+Tool="DspBiosBuilder"
+Tool="Linker"
+Config="Debug"
+Config="Release"
+
+[Source Files]
+Source="NEG_T.C"
+Source="TEST.C"
+Source="..\55x.lcf"
+
+["Compiler" Settings: "Debug"]
+Options=-g -q -fr".\Debug" -i"..\..\include" -i".." -d"_DEBUG" -vcore:3.0 --memory_model=huge
+
+["Compiler" Settings: "Release"]
+Options=-q -o2 -fr".\Release" -i"..\..\include" -i".." -vcore:3.0 --memory_model=huge
+
+["DspBiosBuilder" Settings: "Debug"]
+Options=-v55
+
+["DspBiosBuilder" Settings: "Release"]
+Options=-v55
+
+["Linker" Settings: "Debug"]
+Options=-q -c -m".\Debug\neg.map" -o".\Debug\neg.out" -x -i"..\.." -i"..\..\55x_src\Debug" -l"DSPlib.lib" -l"rts55h.lib"
+
+["Linker" Settings: "Release"]
+Options=-q -c -m".\Release\neg.map" -o".\Release\neg.out" -x -i"..\.." -i"..\..\55x_src\Release" -l"DSPlib.lib" -l"rts55h.lib"
+

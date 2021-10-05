@@ -1,0 +1,4 @@
+-z -q -c -m"./Debug/cfft32.map" -o"./Debug/cfft32.out" -x -i"../.." -i"C:/CCStudio_v3.3/C5500/csl/lib" -i"C:/CCStudio_v3.3/C5500/xdais/lib" -i"C:/CCStudio_v3.3/bios_5_41_02_14/packages/ti/bios/lib" -i"C:/CCStudio_v3.3/bios_5_41_02_14/packages/ti/rtdx/lib/c5500" -i"C:/Program Files/Texas Instruments/C5500 Code Generation Tools 4.3.8/lib" -l"rts55.lib" -l"55xdsp.lib"
+"C:\Userdata\My Projects\DSP library\dsplib_2.40.00\EXAMPLES\cfft32\Debug\cfft32_t.obj"
+"C:\Userdata\My Projects\DSP library\dsplib_2.40.00\EXAMPLES\cfft32\Debug\LTEST.obj"
+"C:\Userdata\My Projects\DSP library\dsplib_2.40.00\EXAMPLES\cfft32\cfft32.cmd"

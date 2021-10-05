@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?ccsproject version="1.0"?>
+
+<projectOptions>
+<deviceVariant value="TMS320C55XX"/>
+<deviceFamily value="C5500"/>
+<deviceEndianness value="UNKNOWN"/>
+<codegenToolVersion value="4.4.1"/>
+<isElfFormat value="false"/>
+<connection value=""/>
+<isTargetManual value="false"/>
+</projectOptions>

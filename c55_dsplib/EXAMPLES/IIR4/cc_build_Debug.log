@@ -1,0 +1,10 @@
+------------------------------  iir4.pjt - Debug  ------------------------------
+[IIR4_T.C] "C:\Program Files\Texas Instruments\C5500 Code Generation Tools 4.3.8\bin\cl55" -g -q -fr"C:/Userdata/My Projects/DSP library/dsplib_2.40.00/EXAMPLES/IIR4/Debug" -i"../../include" -d"_DEBUG" -@"Debug.lkf" "IIR4_T.C"
+
+[TEST.C] "C:\Program Files\Texas Instruments\C5500 Code Generation Tools 4.3.8\bin\cl55" -g -q -fr"C:/Userdata/My Projects/DSP library/dsplib_2.40.00/EXAMPLES/IIR4/Debug" -i"../../include" -d"_DEBUG" -@"Debug.lkf" "TEST.C"
+
+[Linking...] "C:\Program Files\Texas Instruments\C5500 Code Generation Tools 4.3.8\bin\cl55" -@"Debug.lkf"
+<Linking>
+
+Build Complete,
+  0 Errors, 0 Warnings, 0 Remarks.

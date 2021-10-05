@@ -1,0 +1,97 @@
+; Code Composer Project File, Version 2.0 (do not modify or remove this line)
+
+[Project Settings]
+ProjectDir="C:\ti\dsplib\55x_src\"
+ProjectType=Library
+CPUFamily=TMS320C55XX
+Tool="Archiver"
+Tool="Compiler"
+Tool="CustomBuilder"
+Tool="DspBiosBuilder"
+Config="Debug"
+Config="Release"
+
+[Source Files]
+Source="abias.asm"
+Source="add.asm"
+Source="araw.asm"
+Source="arct2.asm"
+Source="atan16.asm"
+Source="aubias.asm"
+Source="bexp.asm"
+Source="cbias.asm"
+Source="cbrev.asm"
+Source="cbrev32.asm"
+Source="cfft32_noscale.asm"
+Source="cfft32_scale.asm"
+Source="cfft_noscale.asm"
+Source="cfft_scale.asm"
+Source="cfir.asm"
+Source="cifft32_noscale.asm"
+Source="cifft32_scale.asm"
+Source="cifft_noscale.asm"
+Source="cifft_scale.asm"
+Source="convol.asm"
+Source="convol1.asm"
+Source="convol2.asm"
+Source="craw.asm"
+Source="cubias.asm"
+Source="decimate.asm"
+Source="DLMS.asm"
+Source="dlmsfast.asm"
+Source="expn.asm"
+Source="fir.asm"
+Source="fir2.asm"
+Source="firlat.asm"
+Source="firs.asm"
+Source="fltoq15.asm"
+Source="hilb16.asm"
+Source="iircas32.asm"
+Source="iircas4.asm"
+Source="iircas5.asm"
+Source="iircas51.asm"
+Source="iirlat.asm"
+Source="interp.asm"
+Source="ldiv16.asm"
+Source="log_10.asm"
+Source="log_2.asm"
+Source="logn.asm"
+Source="maxidx.asm"
+Source="maxidx34.asm"
+Source="maxval.asm"
+Source="maxvec.asm"
+Source="minidx.asm"
+Source="minval.asm"
+Source="minvec.asm"
+Source="mmul.asm"
+Source="mtrans.asm"
+Source="mul32.asm"
+Source="neg.asm"
+Source="neg32.asm"
+Source="power.asm"
+Source="q15tofl.asm"
+Source="rand16.asm"
+Source="rand16i.asm"
+Source="recip16.asm"
+Source="sine.asm"
+Source="sqrtv.asm"
+Source="sub.asm"
+Source="twiddle.asm"
+Source="twiddle32.asm"
+Source="unpack.asm"
+Source="unpack32.asm"
+Source="unpacki.asm"
+Source="unpacki32.asm"
+
+["Archiver" Settings: "Debug"]
+Options=-r -o".\Debug\dsplib.lib"
+
+["Archiver" Settings: "Release"]
+Options=-r -o".\Release\dsplib.lib"
+
+["Compiler" Settings: "Debug"]
+Options=-g -fr"$(Proj_dir)\Debug" -d"_DEBUG" -vcore:3.0 --memory_model=huge
+
+["Compiler" Settings: "Release"]
+Options=-al -o2 -fr"$(Proj_dir)\Release" -vcore:3.0 --memory_model=huge
+

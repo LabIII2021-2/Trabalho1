@@ -1,0 +1,4 @@
+-z -q -c -o"./Debug/fir.out" -x -i"../.." -i"C:/CCStudio_v3.3/C5500/csl/lib" -i"C:/CCStudio_v3.3/C5500/xdais/lib" -i"C:/CCStudio_v3.3/bios_5_41_02_14/packages/ti/bios/lib" -i"C:/CCStudio_v3.3/bios_5_41_02_14/packages/ti/rtdx/lib/c5500" -i"C:/Program Files/Texas Instruments/C5500 Code Generation Tools 4.3.8/lib" -l"55xdsp.lib" -l"rts55.lib"
+"C:\Userdata\My Projects\DSP library\dsplib_2.40.00\EXAMPLES\FIR\Debug\FIR_T.obj"
+"C:\Userdata\My Projects\DSP library\dsplib_2.40.00\EXAMPLES\FIR\Debug\TEST.obj"
+"C:\Userdata\My Projects\DSP library\dsplib_2.40.00\EXAMPLES\FIR\55x.cmd"

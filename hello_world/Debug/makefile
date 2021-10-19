@@ -10,8 +10,8 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
-"./main.obj" \
-"./teste.obj" \
+"./hello_world.obj" \
+"../55xdsp.lib" \
 "../VC5502.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
@@ -134,14 +134,14 @@ BIN_OUTPUTS__QUOTED += \
 
 
 # All Target
-all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+all: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 	@$(MAKE) --no-print-directory -Onone "hello_word.out"
 
 # Tool invocations
-hello_word.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+hello_word.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: C5500 Linker'
-	"C:/Program Files (x86)/Texas Instruments/C5500 Code Generation Tools 4.4.1/bin/cl55" -v5502 --memory_model=large -g --define=c5502 --display_error_number --diag_warning=225 --ptrdiff_size=32 -z -m"hello_word.map" --stack_size=0x200 --heap_size=0x400 -i"C:/Program Files (x86)/Texas Instruments/C5500 Code Generation Tools 4.4.1/lib" -i"C:/Program Files (x86)/Texas Instruments/C5500 Code Generation Tools 4.4.1/include" --reread_libs --display_error_number --warn_sections --xml_link_info="hello_word_linkInfo.xml" --rom_model --sys_stacksize=0x200 -o "hello_word.out" $(ORDERED_OBJS)
+	"C:/Program Files (x86)/Texas Instruments/C5500 Code Generation Tools 4.4.1/bin/cl55" -v5502 --memory_model=small -g --define=c5502 --display_error_number --diag_warning=225 --ptrdiff_size=16 -z -m"hello_word.map" --stack_size=0x200 --heap_size=0x400 -i"C:/Program Files (x86)/Texas Instruments/C5500 Code Generation Tools 4.4.1/lib" -i"C:/Program Files (x86)/Texas Instruments/C5500 Code Generation Tools 4.4.1/include" --reread_libs --display_error_number --warn_sections --xml_link_info="hello_word_linkInfo.xml" --rom_model --sys_stacksize=0x200 -o "hello_word.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
@@ -155,8 +155,8 @@ hello_word.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.obj" "teste.obj" 
-	-$(RM) "main.d" "teste.d" 
+	-$(RM) "hello_world.obj" 
+	-$(RM) "hello_world.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

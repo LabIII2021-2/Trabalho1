@@ -32,73 +32,43 @@
  *
 */
 
-/*=============================================================================
-  Filename:  iir32_t.c
-  Version:     0.001
-  Description: test for cascaded infinite impulse response filter (raw)
-=============================================================================*/
+//*****************************************************************************
+//  Filename:    iir4_t.c
+//  Version:     0.01
+//  Description: test for iircas4 routine
+//*****************************************************************************
 
-#include <dsplib.h>
 #include <stdlib.h>
 #include <math.h>
-#include <tms320.h>
 #include <stdio.h>
-#include "t5.h"
-//#include "test.h"
+#include <tms320.h>
+#include <Dsplib.h>
+
+//#include "t1.h"
+//#include "t2.h"
+//#include "t4.h"
+//#include "t6.h"
+//#include "t7.h"
+//#include "t8.h"
+#include "test.h"
 
 short test(DATA *r, DATA *rtest, short n, DATA maxerror);
 
-/* #define NR   NX*/
-
-short eflag=PASS;          /* error flag (-1: no error; else error)  */
-DATA elevel=0;             /* error level detected                   */
-DATA emax=0;
-
-/* FILE *fp; */
+short eflag = PASS;     // error flag or index into r vector where error
 
 
 void main()
 {
     short i;
 
-    /* clear   */
-    for (i = 0; i < NX; i++) r[i] = 0;                      /* output buffer (optional) */
-    for (i = 0; i < ((2 * NBIQ) + 1); i++) dbuffer[i] = 0;  /* delay buffer (mandatory) */
+    // clear
+    for (i = 0; i < NX; i++) r[i] =0;                     // clear output buffer (optional)
+    for (i = 0; i < (2 * NBIQ) + 2; i++) dbuffer[i] = 0;  // clear delay buffer (a must)
 
-    /* compute */
+    // compute
+    iircas4(x, h, r, dp, NBIQ, NX);
 
-    iir32(x, h, r, dp, NBIQ, NX);
-
-    /* test    */
-    eflag = test(r, rtest, NX, MAXERROR);
-
-    if(eflag != PASS)
-    {
-        exit(-1);
-    }
-
-    /*
-    ** Try the same data again, but with multiple calls to the filter function.
-    ** This proves that the index in dbuffer[0] is stored correctly.
-    */
-
-    /* clear again  */
-    for (i = 0; i < NX; i++) r[i] = 0;                      /* output buffer (optional) */
-    for (i = 0; i < ((2 * NBIQ) + 1); i++) dbuffer[i] = 0;  /* delay buffer (mandatory) */
-
-    /* compute */
-
-    iir32(x, h, r, dp, NBIQ, NX/3);
-    iir32(&x[NX/3], h, &r[NX/3], dp, NBIQ, NX/3);
-    iir32(&x[2*(NX/3)], h, &r[2*(NX/3)], dp, NBIQ, (NX - (2 * (NX/3))));
-
-    /* test    */
-    eflag = test(r, rtest, NX, MAXERROR);
-
-    if(eflag != PASS)
-    {
-        exit(-1);
-    }
-
+    printf("111\n");
+    printf("222");
     return;
 }

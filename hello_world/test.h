@@ -32,68 +32,66 @@
  *
 */
 
+/* Test for iircas4 : rand */
 #define NX 16
 #define NBIQ 2
-#define NH   5 * NBIQ 
-#define FNAME "t5"
-#define MAXERROR 10
+#define FNAME "t2"
+#define MAXERROR 20
 
 DATA x[NX] ={
-32767,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
+1841,
+-1101,
+437,
+-58,
+1601,
+1072,
+-179,
+-1971,
+1315,
+-227,
+472,
+1194,
+1726,
+974,
+-1325,
+-386,
 };
 
-#pragma DATA_SECTION(h,".coeffs")
-LDATA h[NH] ={ /* b0 b1 b2 ... b(NH-1) */
--127987048,
--108450012,
--113233677,
--131271832,
--95620119,
--131846082,
--88374504,
--133354402,
--132393233,
--103923017,
+#pragma DATA_SECTION (h,".coeffs")
+DATA h[4*NBIQ] ={ /* C54x: a1 b1 a2 b2 ... */
+17123,
+-17385,
+-3529,
+12314,
+
+16393,
+-5786,
+15478,
+-19274,
 };
-
-#pragma DATA_SECTION(dbuffer,".dbuffer")
-LDATA dbuffer[2*NBIQ+1] ;
-
-LDATA *dp = dbuffer;
-
-DATA r[NX] ;
 
 DATA rtest[NX] ={
-107,
-183,
-325,
-233,
-179,
-42,
-23,
-5,
-2,
-0,
-0,
-0,
-0,
-0,
-0,
-0,
+1842,
+-4287,
+4228,
+-1779,
+1006,
+-651,
+-643,
+-785,
+4021,
+-4734,
+2475,
+1263,
+-1244,
+-458,
+-900,
+2107,
 };
+
+#pragma DATA_SECTION (dbuffer,".dbuffer")
+DATA dbuffer[2*NBIQ+2];  // index + (2*NBIQ+1)
+DATA *dp = dbuffer;
+
+DATA r[NX];
 

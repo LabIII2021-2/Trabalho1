@@ -41,8 +41,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
-#include <tms320.h>
-#include <Dsplib.h>
+#include "tms320.h"
+#include "Dsplib.h"
 
 //#include "t1.h"
 //#include "t2.h"

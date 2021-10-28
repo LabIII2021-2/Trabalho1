@@ -50,12 +50,115 @@
 //#include "t6.h"
 //#include "t7.h"
 //#include "t8.h"
-#include "test.h"
+//#include "test.h"
 
 short test(DATA *r, DATA *rtest, short n, DATA maxerror);
 
 short eflag = PASS;     // error flag or index into r vector where error
 
+
+
+#define NX 16
+#define NBIQ 1
+#define FNAME "t2"
+#define MAXERROR 20
+
+/* Função seno
+DATA x[NX] ={
+             0,
+             16383,
+             28377,
+             32767,
+             28377,
+             16383,
+             0,
+             -16383,
+             -28377,
+             -32768,
+              -28377,
+              -16384,
+};*/
+
+
+
+DATA x[NX] ={
+             1841,
+             -1101,
+             437,
+             -58,
+             1601,
+             1072,
+             -179,
+             -1971,
+             1315,
+             -227,
+             472,
+             1194,
+             1726,
+             974,
+             -1325,
+             -386,
+};
+
+
+//#pragma DATA_SECTION (dbuffer,".dbuffer")
+DATA dbuffer[2*NBIQ+2];  // index + (2*NBIQ+1)
+DATA *dp = dbuffer;
+
+DATA r[NX];
+
+
+
+//#pragma DATA_SECTION (h,".coeffs")
+
+/* Teste
+DATA h[4*NBIQ] ={
+                  32765,
+                  12288,
+                  16384,
+                  2212,
+};*/
+
+
+DATA h[4*NBIQ] ={ /* C54x: a1 b1 a2 b2 ... */
+                  16393,
+                  -5786,
+                  15478,
+                  -19274,
+};
+
+
+/*
+ * Função seno
+ * DATA rtest[NX] ={
+0,
+16383,
+28377,
+32767,
+28377,
+16383,
+0,
+-16383,
+-28377,
+-32768,
+ -28377,
+ -16384,
+};*/
+
+DATA rtest[NX] ={
+0,
+16383,
+28377,
+32767,
+28377,
+16383,
+0,
+-16383,
+-28377,
+-32768,
+ -28377,
+ -16384,
+};
 
 void main()
 {
@@ -68,7 +171,7 @@ void main()
     // compute
     iircas4(x, h, r, dp, NBIQ, NX);
 
-    printf("111\n");
+    printf("hello world!");
     printf("222");
     return;
 }

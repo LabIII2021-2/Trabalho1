@@ -41,8 +41,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
-#include "tms320.h"
-#include "Dsplib.h"
+#include <tms320.h>
+#include <Dsplib.h>
 
 //#include "t1.h"
 //#include "t2.h"
@@ -275,11 +275,74 @@ void cas52() {
         printf("cas52!");
 }
 
+
+void cas51otherfunction() {
+#define NX 16
+#define NBIQ 2
+    DATA h[5*NBIQ] ={ /* C54x: b0 b1 b2 a1 a2 ... */
+    -17385, //b0
+    12314, //b1
+    -14200, //b2
+    17123, //a1
+    -3529, //a2
+    -5786, //b0
+    -19274, //b1
+    -11688, //b2
+    16393, //a1
+    15478, //a2
+    };
+
+    DATA x[NX] ={
+    1841,
+    -1101,
+    437,
+    -58,
+    1601,
+    1072,
+    -179,
+    -1971,
+    1315,
+    -227,
+    472,
+    1194,
+    1726,
+    974,
+    -1325,
+    -386,
+    };
+
+    short i;
+    DATA dbuffer[4*NBIQ+1];
+    DATA *dp = dbuffer;
+
+    DATA r[NX];
+        // clear
+        for (i = 0; i < NX; i++) r[i] = 0;               // clear output buffer (optional)
+        for (i = 0; i < 4*NBIQ+1; i++) dbuffer[i] = 0;   // clear delay buffer (a must)
+
+        // compute
+        iircas51(x, h, r, dp, NBIQ, NX);
+        printf("cas51!");
+}
+
+
+void testeFloat() {
+    float intermediario;
+    short a = 16384;
+    short b;
+    q15tofl(&a, &intermediario, 1);
+    intermediario *= intermediario;
+    fltoq15(&intermediario, &b, 1);
+    b = b;
+    return;
+}
+
 void main()
 {
     //cas4();
     //cas51();
-    cas52();
+    //cas52();
+    testeFloat();
 }
 
 

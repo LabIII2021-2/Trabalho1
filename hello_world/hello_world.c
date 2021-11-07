@@ -58,120 +58,230 @@ short eflag = PASS;     // error flag or index into r vector where error
 
 
 
-#define NX 16
-#define NBIQ 1
 #define FNAME "t2"
 #define MAXERROR 20
 
-/* Função seno
-DATA x[NX] ={
-             0,
-             16383,
-             28377,
-             32767,
-             28377,
-             16383,
-             0,
-             -16383,
-             -28377,
-             -32768,
-              -28377,
-              -16384,
-};*/
+
+
+void cas4() {
+#define NX 16
+#define NBIQ 1
+    /* Função seno
+    DATA x[NX] ={
+                 0,
+                 16383,
+                 28377,
+                 32767,
+                 28377,
+                 16383,
+                 0,
+                 -16383,
+                 -28377,
+                 -32768,
+                  -28377,
+                  -16384,
+    };*/
 
 
 
-DATA x[NX] ={
-             1841,
-             -1101,
-             437,
-             -58,
-             1601,
-             1072,
-             -179,
-             -1971,
-             1315,
-             -227,
-             472,
-             1194,
-             1726,
-             974,
-             -1325,
-             -386,
-};
+    DATA x[NX] ={
+                 1841,
+                 -1101,
+                 437,
+                 -58,
+                 1601,
+                 1072,
+                 -179,
+                 -1971,
+                 1315,
+                 -227,
+                 472,
+                 1194,
+                 1726,
+                 974,
+                 -1325,
+                 -386,
+    };
 
 
-//#pragma DATA_SECTION (dbuffer,".dbuffer")
-DATA dbuffer[2*NBIQ+2];  // index + (2*NBIQ+1)
-DATA *dp = dbuffer;
+    //#pragma DATA_SECTION (dbuffer,".dbuffer")
+    DATA dbuffer[2*NBIQ+2];  // index + (2*NBIQ+1)
+    DATA *dp = dbuffer;
 
-DATA r[NX];
-
-
-
-//#pragma DATA_SECTION (h,".coeffs")
-
-/* Teste
-DATA h[4*NBIQ] ={
-                  32765,
-                  12288,
-                  16384,
-                  2212,
-};*/
+    DATA r[NX];
 
 
-DATA h[4*NBIQ] ={ /* C54x: a1 b1 a2 b2 ... */
-                  16393,
-                  -5786,
-                  15478,
-                  -19274,
-};
+
+    //#pragma DATA_SECTION (h,".coeffs")
+
+    /* Teste
+    DATA h[4*NBIQ] ={
+                      32765,
+                      12288,
+                      16384,
+                      2212,
+    };*/
 
 
-/*
- * Função seno
- * DATA rtest[NX] ={
-0,
-16383,
-28377,
-32767,
-28377,
-16383,
-0,
--16383,
--28377,
--32768,
- -28377,
- -16384,
-};*/
+    DATA h[4*NBIQ] ={ /* C54x: a1 b1 a2 b2 ... */
+                      16393,
+                      -5786,
+                      15478,
+                      -19274,
+    };
 
-DATA rtest[NX] ={
-0,
-16383,
-28377,
-32767,
-28377,
-16383,
-0,
--16383,
--28377,
--32768,
- -28377,
- -16384,
-};
+
+    /*
+     * Função seno
+     * DATA rtest[NX] ={
+    0,
+    16383,
+    28377,
+    32767,
+    28377,
+    16383,
+    0,
+    -16383,
+    -28377,
+    -32768,
+     -28377,
+     -16384,
+    };*/
+
+    DATA rtest[NX] ={
+    0,
+    16383,
+    28377,
+    32767,
+    28377,
+    16383,
+    0,
+    -16383,
+    -28377,
+    -32768,
+     -28377,
+     -16384,
+    };
+        short i;
+
+        // clear
+        for (i = 0; i < NX; i++) r[i] =0;                     // clear output buffer (optional)
+        for (i = 0; i < (2 * NBIQ) + 2; i++) dbuffer[i] = 0;  // clear delay buffer (a must)
+
+        // compute
+        iircas4(x, h, r, dp, NBIQ, NX);
+
+        printf("hello world!");
+        printf("222");
+        return;
+
+}
+
+void cas51() {
+#define NX 16
+#define NBIQ 2
+    DATA h[5*NBIQ] ={ /* C54x: b0 b1 b2 a1 a2 ... */
+    -17385, //b0
+    12314, //b1
+    -14200, //b2
+    17123, //a1
+    -3529, //a2
+    -5786, //b0
+    -19274, //b1
+    -11688, //b2
+    16393, //a1
+    15478, //a2
+    };
+
+    DATA x[NX] ={
+    1841,
+    -1101,
+    437,
+    -58,
+    1601,
+    1072,
+    -179,
+    -1971,
+    1315,
+    -227,
+    472,
+    1194,
+    1726,
+    974,
+    -1325,
+    -386,
+    };
+
+    short i;
+    DATA dbuffer[4*NBIQ+1];
+    DATA *dp = dbuffer;
+
+    DATA r[NX];
+        // clear
+        for (i = 0; i < NX; i++) r[i] = 0;               // clear output buffer (optional)
+        for (i = 0; i < 4*NBIQ+1; i++) dbuffer[i] = 0;   // clear delay buffer (a must)
+
+        // compute
+        iircas51(x, h, r, dp, NBIQ, NX);
+        printf("cas51!");
+}
+
+void cas52() {
+#define NX 16
+#define NBIQ 2
+    DATA h[5*NBIQ] ={ /* C54x:  a1 a2 b2 b0 b1 ... */
+    17123,//a1
+    -3529,//a2
+    -14200,//b2
+    -17385,//b0
+    12314,//b1
+    16393, //a1
+    15478, //a2
+    -11688, //b2
+    -5786, //b0
+    -19274, // b1
+    };
+
+    DATA x[NX] ={
+    1841,
+    -1101,
+    437,
+    -58,
+    1601,
+    1072,
+    -179,
+    -1971,
+    1315,
+    -227,
+    472,
+    1194,
+    1726,
+    974,
+    -1325,
+    -386,
+    };
+
+    short i;
+    DATA dbuffer[4*NBIQ+1];
+    DATA *dp = dbuffer;
+
+    DATA r[NX];
+        // clear
+        for (i = 0; i < NX; i++) r[i] = 0;               // clear output buffer (optional)
+        for (i = 0; i < 4*NBIQ+1; i++) dbuffer[i] = 0;   // clear delay buffer (a must)
+
+        // compute
+        iircas5(x, h, r, dp, NBIQ, NX);
+        printf("cas52!");
+}
 
 void main()
 {
-    short i;
-
-    // clear
-    for (i = 0; i < NX; i++) r[i] =0;                     // clear output buffer (optional)
-    for (i = 0; i < (2 * NBIQ) + 2; i++) dbuffer[i] = 0;  // clear delay buffer (a must)
-
-    // compute
-    iircas4(x, h, r, dp, NBIQ, NX);
-
-    printf("hello world!");
-    printf("222");
-    return;
+    //cas4();
+    //cas51();
+    cas52();
 }
+
+
+
+

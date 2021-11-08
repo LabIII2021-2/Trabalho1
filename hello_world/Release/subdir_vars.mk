@@ -8,22 +8,25 @@ SHELL = cmd.exe
 CMD_SRCS += \
 ../VC5502.cmd 
 
+LIB_SRCS += \
+../55xdsp.lib 
+
 C_SRCS += \
-../main.c 
+../hello_world.c 
 
 C_DEPS += \
-./main.d 
+./hello_world.d 
 
 OBJS += \
-./main.obj 
+./hello_world.obj 
 
 OBJS__QUOTED += \
-"main.obj" 
+"hello_world.obj" 
 
 C_DEPS__QUOTED += \
-"main.d" 
+"hello_world.d" 
 
 C_SRCS__QUOTED += \
-"../main.c" 
+"../hello_world.c" 
 
 

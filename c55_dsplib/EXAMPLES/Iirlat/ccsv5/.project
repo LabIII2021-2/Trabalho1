@@ -3,6 +3,7 @@
 	<name>iirlat</name>
 	<comment></comment>
 	<projects>
+		<project>dsplib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

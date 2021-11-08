@@ -107,6 +107,54 @@ void iirFormaDireta2(DATA signal[128]) {
     return;
 }
 
+
+void iirFormaTransposta1(DATA signal[128])
+{
+    DATA r[128] = {0};
+    int i;
+
+    DATA s[12] = {0};
+    DATA temp_s[12] = {0};
+
+    for (i = 0; i < 128; i++)
+    {
+
+        short x_plus_s1 = sumQ15(signal[i], s[0]);
+
+
+        temp_s[0] = sumQ15(multiplyQ15(x_plus_s1, -a[1]), s[1]);
+        temp_s[1] = sumQ15(multiplyQ15(x_plus_s1, -a[2]), s[2]);
+        temp_s[2] = sumQ15(multiplyQ15(x_plus_s1, -a[3]), s[3]);
+        temp_s[3] = sumQ15(multiplyQ15(x_plus_s1, -a[4]), s[4]);
+        temp_s[4] = sumQ15(multiplyQ15(x_plus_s1, -a[5]), s[5]);
+        temp_s[5] = multiplyQ15(x_plus_s1, -a[6]);
+
+        temp_s[6] = sumQ15(multiplyQ15(x_plus_s1, b[1]), s[7]);
+        temp_s[7] = sumQ15(multiplyQ15(x_plus_s1, b[2]), s[8]);
+        temp_s[8] = sumQ15(multiplyQ15(x_plus_s1, b[3]), s[9]);
+        temp_s[9] = sumQ15(multiplyQ15(x_plus_s1, b[4]), s[10]);
+        temp_s[10] = sumQ15(multiplyQ15(x_plus_s1, b[5]), s[11]);
+        temp_s[11] = multiplyQ15(x_plus_s1, b[6]);
+
+        r[i] = sumQ15(multiplyQ15(x_plus_s1, b[0]), s[6]);
+
+        s[0] = temp_s[0];
+        s[1] = temp_s[1];
+        s[2] = temp_s[2];
+        s[3] = temp_s[3];
+        s[4] = temp_s[4];
+        s[5] = temp_s[5];
+        s[6] = temp_s[6];
+        s[7] = temp_s[7];
+        s[8] = temp_s[8];
+        s[9] = temp_s[9];
+        s[10] = temp_s[10];
+        s[11] = temp_s[11];
+
+    }
+    return;
+}
+
 void iirFormaTransposta2(DATA signal[128]) {
     DATA v[128] = {0};
     DATA y[128] = {0};
@@ -145,7 +193,7 @@ void main()
     iirCascata(x_sin);
     iirCascata(x_random);
     iirFormaTransposta2(x_sin);
-    //iirFormaTransposta2();
+    iirFormaTransposta1(x_sin);
     return;
 }
 

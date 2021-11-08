@@ -37,56 +37,20 @@ DATA sumQ15(DATA a, DATA b) {
     return output;
 }
 
-void cas51() {
-#define NX 16
-#define NBIQ 2
-    DATA h[5*NBIQ] ={ /* C54x: b0 b1 b2 a1 a2 ... */
-    -17385, //b0
-    12314, //b1
-    -14200, //b2
-    17123, //a1
-    -3529, //a2
-    -5786, //b0
-    -19274, //b1
-    -11688, //b2
-    16393, //a1
-    15478, //a2
-    };
-
-    DATA x[NX] ={
-    1841,
-    -1101,
-    437,
-    -58,
-    1601,
-    1072,
-    -179,
-    -1971,
-    1315,
-    -227,
-    472,
-    1194,
-    1726,
-    974,
-    -1325,
-    -386,
-    };
-
-    short i;
-    DATA dbuffer[4*NBIQ+1];
+void iirCascata(DATA signal[128])
+{
+    DATA dbuffer[13] = {0};
     DATA *dp = dbuffer;
+    DATA r[128] = {0};
+    iircas51(signal, hcas, r, dp, 3, 128);
+    int i;
 
-    DATA r[NX];
-        // clear
-        for (i = 0; i < NX; i++) r[i] = 0;               // clear output buffer (optional)
-        for (i = 0; i < 4*NBIQ+1; i++) dbuffer[i] = 0;   // clear delay buffer (a must)
-
-        // compute
-        iircas51(x, h, r, dp, NBIQ, NX);
-        printf("cas51!");
+    // Compensando ganho do numerador -> multiplicação por 4
+    for(i = 0; i < 128; i++) {
+        r[i] = sumQ15(sumQ15(r[i], r[i]), sumQ15(r[i], r[i]));
+    }
+    return;
 }
-
-
 
 DATA get_at(int n, DATA arr[128]) {
     if(n < 0)
@@ -95,44 +59,19 @@ DATA get_at(int n, DATA arr[128]) {
         return arr[n];
 }
 
-void iirFormaDireta2() {
-    DATA v[128] = {0};
-    DATA y[128] = {0};
-    int i = 0;
-    for(i = 0; i < 128; i++) {
-        v[i] = get_at(i, x_sin);
-
-        v[i] = sumQ15(v[i], multiplyQ15(-a[1], get_at(i - 1, v)));
-        v[i] = sumQ15(v[i], multiplyQ15(-a[2], get_at(i - 2, v)));
-        v[i] = sumQ15(v[i], multiplyQ15(-a[3], get_at(i - 3, v)));
-        v[i] = sumQ15(v[i], multiplyQ15(-a[4], get_at(i - 4, v)));
-        v[i] = sumQ15(v[i], multiplyQ15(-a[5], get_at(i - 5, v)));
-        v[i] = sumQ15(v[i], multiplyQ15(-a[6], get_at(i - 6, v)));
-
-        y[i] = get_at(i, v);
-        y[i] = sumQ15(y[i], multiplyQ15(b[1], get_at(i - 1, v)));
-        y[i] = sumQ15(y[i], multiplyQ15(b[2], get_at(i - 2, v)));
-        y[i] = sumQ15(y[i], multiplyQ15(b[3], get_at(i - 3, v)));
-        y[i] = sumQ15(y[i], multiplyQ15(b[4], get_at(i - 4, v)));
-        y[i] = sumQ15(y[i], multiplyQ15(b[5], get_at(i - 5, v)));
-        y[i] = sumQ15(y[i], multiplyQ15(b[6], get_at(i - 6, v)));
-    }
-    return;
-}
-
-void iirFormaDireta1()
+void iirFormaDireta1(DATA signal[128])
 {
     DATA r[128] = {0};
     int i;
     for (i = 0; i < 128; i++)
     {
-        r[i] = multiplyQ15(b[0], get_at(i, x_sin));
-        r[i] = sumQ15(r[i], multiplyQ15(b[1], get_at(i-1, x_sin)));
-        r[i] = sumQ15(r[i], multiplyQ15(b[2], get_at(i-2, x_sin)));
-        r[i] = sumQ15(r[i], multiplyQ15(b[3], get_at(i-3, x_sin)));
-        r[i] = sumQ15(r[i], multiplyQ15(b[4], get_at(i-4, x_sin)));
-        r[i] = sumQ15(r[i], multiplyQ15(b[5], get_at(i-5, x_sin)));
-        r[i] = sumQ15(r[i], multiplyQ15(b[6], get_at(i-6, x_sin)));
+        r[i] = multiplyQ15(b[0], get_at(i, signal));
+        r[i] = sumQ15(r[i], multiplyQ15(b[1], get_at(i-1, signal)));
+        r[i] = sumQ15(r[i], multiplyQ15(b[2], get_at(i-2, signal)));
+        r[i] = sumQ15(r[i], multiplyQ15(b[3], get_at(i-3, signal)));
+        r[i] = sumQ15(r[i], multiplyQ15(b[4], get_at(i-4, signal)));
+        r[i] = sumQ15(r[i], multiplyQ15(b[5], get_at(i-5, signal)));
+        r[i] = sumQ15(r[i], multiplyQ15(b[6], get_at(i-6, signal)));
 
         r[i] = sumQ15(r[i], multiplyQ15(-a[1], get_at(i-1, r)));
         r[i] = sumQ15(r[i], multiplyQ15(-a[2], get_at(i-2, r)));
@@ -144,11 +83,38 @@ void iirFormaDireta1()
     return;
 }
 
+void iirFormaDireta2(DATA signal[128]) {
+    DATA v[128] = {0};
+    DATA y[128] = {0};
+    int i = 0;
+    for(i = 0; i < 128; i++) {
+        v[i] = get_at(i, signal);
+        v[i] = sumQ15(v[i], multiplyQ15(-a[1], get_at(i - 1, v)));
+        v[i] = sumQ15(v[i], multiplyQ15(-a[2], get_at(i - 2, v)));
+        v[i] = sumQ15(v[i], multiplyQ15(-a[3], get_at(i - 3, v)));
+        v[i] = sumQ15(v[i], multiplyQ15(-a[4], get_at(i - 4, v)));
+        v[i] = sumQ15(v[i], multiplyQ15(-a[5], get_at(i - 5, v)));
+        v[i] = sumQ15(v[i], multiplyQ15(-a[6], get_at(i - 6, v)));
+
+        y[i] = multiplyQ15(b[0], get_at(i, v));
+        y[i] = sumQ15(y[i], multiplyQ15(b[1], get_at(i - 1, v)));
+        y[i] = sumQ15(y[i], multiplyQ15(b[2], get_at(i - 2, v)));
+        y[i] = sumQ15(y[i], multiplyQ15(b[3], get_at(i - 3, v)));
+        y[i] = sumQ15(y[i], multiplyQ15(b[4], get_at(i - 4, v)));
+        y[i] = sumQ15(y[i], multiplyQ15(b[5], get_at(i - 5, v)));
+        y[i] = sumQ15(y[i], multiplyQ15(b[6], get_at(i - 6, v)));
+    }
+    return;
+}
+
 void main()
 {
-    //cas51();
-
-    iirFormaDireta2();
+    iirFormaDireta1(x_sin);
+    iirFormaDireta2(x_sin);
+    iirFormaDireta1(x_random);
+    iirFormaDireta2(x_random);
+    iirCascata(x_sin);
+    iirCascata(x_random);
     return;
 }
 

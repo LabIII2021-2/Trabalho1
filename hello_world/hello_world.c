@@ -5,13 +5,6 @@
 #include <Dsplib.h>
 #include <inttypes.h>
 
-//#include "t1.h"
-//#include "t2.h"
-//#include "t4.h"
-//#include "t6.h"
-//#include "t7.h"
-//#include "t8.h"
-//#include "test.h"
 #include "sin_composition_input_signal.h"
 #include "random_input_signal.h"
 #include "filter_butterworth_IIR_low-pass.h"
@@ -95,55 +88,67 @@ void cas51() {
 
 
 
-DATA x_sin_at(int n, DATA x_input[128]) {
+DATA get_at(int n, DATA arr[128]) {
     if(n < 0)
         return 0;
     else
-        return x_input[n];
+        return arr[n];
 }
 
-DATA v_at(int n, DATA v_input[128]) {
-    if(n < 0)
-        return 0;
-    else
-        return v_input[n];
-}
-
-
-
-void filterIIRType2() {
+void iirFormaDireta2() {
     DATA v[128] = {0};
     DATA y[128] = {0};
     int i = 0;
     for(i = 0; i < 128; i++) {
-        v[i] = x_sin_at(i, x_sin);
+        v[i] = get_at(i, x_sin);
 
-        v[i] = sumQ15(v[i], multiplyQ15(-a[1], v_at(i - 1, v)));
-        v[i] = sumQ15(v[i], multiplyQ15(-a[2], v_at(i - 2, v)));
-        v[i] = sumQ15(v[i], multiplyQ15(-a[3], v_at(i - 3, v)));
-        v[i] = sumQ15(v[i], multiplyQ15(-a[4], v_at(i - 4, v)));
-        v[i] = sumQ15(v[i], multiplyQ15(-a[5], v_at(i - 5, v)));
-        v[i] = sumQ15(v[i], multiplyQ15(-a[6], v_at(i - 6, v)));
+        v[i] = sumQ15(v[i], multiplyQ15(-a[1], get_at(i - 1, v)));
+        v[i] = sumQ15(v[i], multiplyQ15(-a[2], get_at(i - 2, v)));
+        v[i] = sumQ15(v[i], multiplyQ15(-a[3], get_at(i - 3, v)));
+        v[i] = sumQ15(v[i], multiplyQ15(-a[4], get_at(i - 4, v)));
+        v[i] = sumQ15(v[i], multiplyQ15(-a[5], get_at(i - 5, v)));
+        v[i] = sumQ15(v[i], multiplyQ15(-a[6], get_at(i - 6, v)));
 
-        y[i] = v_at(i, v);
-        y[i] = sumQ15(y[i], multiplyQ15(b[1], v_at(i - 1, v)));
-        y[i] = sumQ15(y[i], multiplyQ15(b[2], v_at(i - 2, v)));
-        y[i] = sumQ15(y[i], multiplyQ15(b[3], v_at(i - 3, v)));
-        y[i] = sumQ15(y[i], multiplyQ15(b[4], v_at(i - 4, v)));
-        y[i] = sumQ15(y[i], multiplyQ15(b[5], v_at(i - 5, v)));
-        y[i] = sumQ15(y[i], multiplyQ15(b[6], v_at(i - 6, v)));
+        y[i] = get_at(i, v);
+        y[i] = sumQ15(y[i], multiplyQ15(b[1], get_at(i - 1, v)));
+        y[i] = sumQ15(y[i], multiplyQ15(b[2], get_at(i - 2, v)));
+        y[i] = sumQ15(y[i], multiplyQ15(b[3], get_at(i - 3, v)));
+        y[i] = sumQ15(y[i], multiplyQ15(b[4], get_at(i - 4, v)));
+        y[i] = sumQ15(y[i], multiplyQ15(b[5], get_at(i - 5, v)));
+        y[i] = sumQ15(y[i], multiplyQ15(b[6], get_at(i - 6, v)));
+    }
+    return;
+}
+
+void iirFormaDireta1()
+{
+    DATA r[128] = {0};
+    int i;
+    for (i = 0; i < 128; i++)
+    {
+        r[i] = multiplyQ15(b[0], get_at(i, x_sin));
+        r[i] = sumQ15(r[i], multiplyQ15(b[1], get_at(i-1, x_sin)));
+        r[i] = sumQ15(r[i], multiplyQ15(b[2], get_at(i-2, x_sin)));
+        r[i] = sumQ15(r[i], multiplyQ15(b[3], get_at(i-3, x_sin)));
+        r[i] = sumQ15(r[i], multiplyQ15(b[4], get_at(i-4, x_sin)));
+        r[i] = sumQ15(r[i], multiplyQ15(b[5], get_at(i-5, x_sin)));
+        r[i] = sumQ15(r[i], multiplyQ15(b[6], get_at(i-6, x_sin)));
+
+        r[i] = sumQ15(r[i], multiplyQ15(-a[1], get_at(i-1, r)));
+        r[i] = sumQ15(r[i], multiplyQ15(-a[2], get_at(i-2, r)));
+        r[i] = sumQ15(r[i], multiplyQ15(-a[3], get_at(i-3, r)));
+        r[i] = sumQ15(r[i], multiplyQ15(-a[4], get_at(i-4, r)));
+        r[i] = sumQ15(r[i], multiplyQ15(-a[5], get_at(i-5, r)));
+        r[i] = sumQ15(r[i], multiplyQ15(-a[6], get_at(i-6, r)));
     }
     return;
 }
 
 void main()
 {
-    //cas4();
     //cas51();
-    //cas52();
-    //testeFloat();
-    filterIIRType2();
 
+    iirFormaDireta2();
     return;
 }
 

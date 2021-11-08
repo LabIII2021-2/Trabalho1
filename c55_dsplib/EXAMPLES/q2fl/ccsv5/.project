@@ -3,6 +3,7 @@
 	<name>q2fl</name>
 	<comment></comment>
 	<projects>
+		<project>dsplib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -4,7 +4,7 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/Program Files (x86)/Texas Instruments/C5500 Code Generation Tools 4.4.1
+CG_TOOL_ROOT := C:/ti/ccs1100/ccs/tools/compiler/c5500_4.4.1
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
@@ -141,14 +141,14 @@ all: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 hello_word.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: C5500 Linker'
-	"C:/Program Files (x86)/Texas Instruments/C5500 Code Generation Tools 4.4.1/bin/cl55" -v5502 --memory_model=small -g --define=c5502 --display_error_number --diag_warning=225 --ptrdiff_size=16 -z -m"hello_word.map" --stack_size=0x200 --heap_size=0x400 -i"C:/Program Files (x86)/Texas Instruments/C5500 Code Generation Tools 4.4.1/lib" -i"C:/Program Files (x86)/Texas Instruments/C5500 Code Generation Tools 4.4.1/include" --reread_libs --display_error_number --warn_sections --xml_link_info="hello_word_linkInfo.xml" --rom_model --sys_stacksize=0x200 -o "hello_word.out" $(ORDERED_OBJS)
+	"C:/ti/ccs1100/ccs/tools/compiler/c5500_4.4.1/bin/cl55" -v5502 --memory_model=small -g --define=c5502 --display_error_number --diag_warning=225 --ptrdiff_size=16 -z -m"hello_word.map" --stack_size=0x200 --heap_size=0x400 -i"C:/ti/ccs1100/ccs/tools/compiler/c5500_4.4.1/lib" -i"C:/ti/ccs1100/ccs/tools/compiler/c5500_4.4.1/include" --reread_libs --display_error_number --warn_sections --xml_link_info="hello_word_linkInfo.xml" --rom_model --sys_stacksize=0x200 -o "hello_word.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 hello_word.hex: $(EXE_OUTPUTS)
 	@echo 'Building secondary target: "$@"'
 	@echo 'Invoking: C5500 Hex Utility'
-	"C:/Program Files (x86)/Texas Instruments/C5500 Code Generation Tools 4.4.1/bin/hex55"  -o "hello_word.hex" $(EXE_OUTPUTS__QUOTED)
+	"C:/ti/ccs1100/ccs/tools/compiler/c5500_4.4.1/bin/hex55"  -o "hello_word.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building secondary target: "$@"'
 	@echo ' '
 

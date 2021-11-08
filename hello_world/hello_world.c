@@ -1,180 +1,40 @@
-/*
- * Copyright (C) 2013 Texas Instruments Incorporated - http://www.ti.com/
- *
- *
- *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions
- *  are met:
- *
- *    Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- *    Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the
- *    distribution.
- *
- *    Neither the name of Texas Instruments Incorporated nor the names of
- *    its contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
-*/
-
-//*****************************************************************************
-//  Filename:    iir4_t.c
-//  Version:     0.01
-//  Description: test for iircas4 routine
-//*****************************************************************************
-
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
 #include <tms320.h>
 #include <Dsplib.h>
+#include <inttypes.h>
 
-//#include "t1.h"
-//#include "t2.h"
-//#include "t4.h"
-//#include "t6.h"
-//#include "t7.h"
-//#include "t8.h"
-//#include "test.h"
+#include "sin_composition_input_signal.h"
+#include "random_input_signal.h"
+#include "filter_butterworth_IIR_low-pass.h"
 
-short test(DATA *r, DATA *rtest, short n, DATA maxerror);
+DATA multiplyQ15(DATA a, DATA b) {
+    LDATA temp;
+    DATA output;
+    temp = (LDATA) a * b;
+    temp = temp + (1 << 14);
+    temp = temp >> 15;
+    if (temp > INT16_MAX)
+        output = INT16_MAX;
+    else if (temp < INT16_MIN)
+        output = INT16_MIN;
+    else
+        output = (DATA) temp;
+    return output;
+}
 
-short eflag = PASS;     // error flag or index into r vector where error
-
-
-
-#define FNAME "t2"
-#define MAXERROR 20
-
-
-
-void cas4() {
-#define NX 16
-#define NBIQ 1
-    /* Função seno
-    DATA x[NX] ={
-                 0,
-                 16383,
-                 28377,
-                 32767,
-                 28377,
-                 16383,
-                 0,
-                 -16383,
-                 -28377,
-                 -32768,
-                  -28377,
-                  -16384,
-    };*/
-
-
-
-    DATA x[NX] ={
-                 1841,
-                 -1101,
-                 437,
-                 -58,
-                 1601,
-                 1072,
-                 -179,
-                 -1971,
-                 1315,
-                 -227,
-                 472,
-                 1194,
-                 1726,
-                 974,
-                 -1325,
-                 -386,
-    };
-
-
-    //#pragma DATA_SECTION (dbuffer,".dbuffer")
-    DATA dbuffer[2*NBIQ+2];  // index + (2*NBIQ+1)
-    DATA *dp = dbuffer;
-
-    DATA r[NX];
-
-
-
-    //#pragma DATA_SECTION (h,".coeffs")
-
-    /* Teste
-    DATA h[4*NBIQ] ={
-                      32765,
-                      12288,
-                      16384,
-                      2212,
-    };*/
-
-
-    DATA h[4*NBIQ] ={ /* C54x: a1 b1 a2 b2 ... */
-                      16393,
-                      -5786,
-                      15478,
-                      -19274,
-    };
-
-
-    /*
-     * Função seno
-     * DATA rtest[NX] ={
-    0,
-    16383,
-    28377,
-    32767,
-    28377,
-    16383,
-    0,
-    -16383,
-    -28377,
-    -32768,
-     -28377,
-     -16384,
-    };*/
-
-    DATA rtest[NX] ={
-    0,
-    16383,
-    28377,
-    32767,
-    28377,
-    16383,
-    0,
-    -16383,
-    -28377,
-    -32768,
-     -28377,
-     -16384,
-    };
-        short i;
-
-        // clear
-        for (i = 0; i < NX; i++) r[i] =0;                     // clear output buffer (optional)
-        for (i = 0; i < (2 * NBIQ) + 2; i++) dbuffer[i] = 0;  // clear delay buffer (a must)
-
-        // compute
-        iircas4(x, h, r, dp, NBIQ, NX);
-
-        printf("hello world!");
-        printf("222");
-        return;
-
+DATA sumQ15(DATA a, DATA b) {
+    LDATA temp;
+    DATA output;
+    temp = (LDATA) a + b;
+    if (temp > INT16_MAX)
+        output = INT16_MAX;
+    else if (temp < INT16_MIN)
+        output = INT16_MIN;
+    else
+        output = (DATA) temp;
+    return output;
 }
 
 void cas51() {
@@ -226,123 +86,70 @@ void cas51() {
         printf("cas51!");
 }
 
-void cas52() {
-#define NX 16
-#define NBIQ 2
-    DATA h[5*NBIQ] ={ /* C54x:  a1 a2 b2 b0 b1 ... */
-    17123,//a1
-    -3529,//a2
-    -14200,//b2
-    -17385,//b0
-    12314,//b1
-    16393, //a1
-    15478, //a2
-    -11688, //b2
-    -5786, //b0
-    -19274, // b1
-    };
 
-    DATA x[NX] ={
-    1841,
-    -1101,
-    437,
-    -58,
-    1601,
-    1072,
-    -179,
-    -1971,
-    1315,
-    -227,
-    472,
-    1194,
-    1726,
-    974,
-    -1325,
-    -386,
-    };
 
-    short i;
-    DATA dbuffer[4*NBIQ+1];
-    DATA *dp = dbuffer;
-
-    DATA r[NX];
-        // clear
-        for (i = 0; i < NX; i++) r[i] = 0;               // clear output buffer (optional)
-        for (i = 0; i < 4*NBIQ+1; i++) dbuffer[i] = 0;   // clear delay buffer (a must)
-
-        // compute
-        iircas5(x, h, r, dp, NBIQ, NX);
-        printf("cas52!");
+DATA get_at(int n, DATA arr[128]) {
+    if(n < 0)
+        return 0;
+    else
+        return arr[n];
 }
 
+void iirFormaDireta2() {
+    DATA v[128] = {0};
+    DATA y[128] = {0};
+    int i = 0;
+    for(i = 0; i < 128; i++) {
+        v[i] = get_at(i, x_sin);
 
-void cas51otherfunction() {
-#define NX 16
-#define NBIQ 2
-    DATA h[5*NBIQ] ={ /* C54x: b0 b1 b2 a1 a2 ... */
-    -17385, //b0
-    12314, //b1
-    -14200, //b2
-    17123, //a1
-    -3529, //a2
-    -5786, //b0
-    -19274, //b1
-    -11688, //b2
-    16393, //a1
-    15478, //a2
-    };
+        v[i] = sumQ15(v[i], multiplyQ15(-a[1], get_at(i - 1, v)));
+        v[i] = sumQ15(v[i], multiplyQ15(-a[2], get_at(i - 2, v)));
+        v[i] = sumQ15(v[i], multiplyQ15(-a[3], get_at(i - 3, v)));
+        v[i] = sumQ15(v[i], multiplyQ15(-a[4], get_at(i - 4, v)));
+        v[i] = sumQ15(v[i], multiplyQ15(-a[5], get_at(i - 5, v)));
+        v[i] = sumQ15(v[i], multiplyQ15(-a[6], get_at(i - 6, v)));
 
-    DATA x[NX] ={
-    1841,
-    -1101,
-    437,
-    -58,
-    1601,
-    1072,
-    -179,
-    -1971,
-    1315,
-    -227,
-    472,
-    1194,
-    1726,
-    974,
-    -1325,
-    -386,
-    };
-
-    short i;
-    DATA dbuffer[4*NBIQ+1];
-    DATA *dp = dbuffer;
-
-    DATA r[NX];
-        // clear
-        for (i = 0; i < NX; i++) r[i] = 0;               // clear output buffer (optional)
-        for (i = 0; i < 4*NBIQ+1; i++) dbuffer[i] = 0;   // clear delay buffer (a must)
-
-        // compute
-        iircas51(x, h, r, dp, NBIQ, NX);
-        printf("cas51!");
+        y[i] = get_at(i, v);
+        y[i] = sumQ15(y[i], multiplyQ15(b[1], get_at(i - 1, v)));
+        y[i] = sumQ15(y[i], multiplyQ15(b[2], get_at(i - 2, v)));
+        y[i] = sumQ15(y[i], multiplyQ15(b[3], get_at(i - 3, v)));
+        y[i] = sumQ15(y[i], multiplyQ15(b[4], get_at(i - 4, v)));
+        y[i] = sumQ15(y[i], multiplyQ15(b[5], get_at(i - 5, v)));
+        y[i] = sumQ15(y[i], multiplyQ15(b[6], get_at(i - 6, v)));
+    }
+    return;
 }
 
+void iirFormaDireta1()
+{
+    DATA r[128] = {0};
+    int i;
+    for (i = 0; i < 128; i++)
+    {
+        r[i] = multiplyQ15(b[0], get_at(i, x_sin));
+        r[i] = sumQ15(r[i], multiplyQ15(b[1], get_at(i-1, x_sin)));
+        r[i] = sumQ15(r[i], multiplyQ15(b[2], get_at(i-2, x_sin)));
+        r[i] = sumQ15(r[i], multiplyQ15(b[3], get_at(i-3, x_sin)));
+        r[i] = sumQ15(r[i], multiplyQ15(b[4], get_at(i-4, x_sin)));
+        r[i] = sumQ15(r[i], multiplyQ15(b[5], get_at(i-5, x_sin)));
+        r[i] = sumQ15(r[i], multiplyQ15(b[6], get_at(i-6, x_sin)));
 
-void testeFloat() {
-    float intermediario;
-    short a = 16384;
-    short b;
-    q15tofl(&a, &intermediario, 1);
-    intermediario *= intermediario;
-    fltoq15(&intermediario, &b, 1);
-    b = b;
+        r[i] = sumQ15(r[i], multiplyQ15(-a[1], get_at(i-1, r)));
+        r[i] = sumQ15(r[i], multiplyQ15(-a[2], get_at(i-2, r)));
+        r[i] = sumQ15(r[i], multiplyQ15(-a[3], get_at(i-3, r)));
+        r[i] = sumQ15(r[i], multiplyQ15(-a[4], get_at(i-4, r)));
+        r[i] = sumQ15(r[i], multiplyQ15(-a[5], get_at(i-5, r)));
+        r[i] = sumQ15(r[i], multiplyQ15(-a[6], get_at(i-6, r)));
+    }
     return;
 }
 
 void main()
 {
-    //cas4();
     //cas51();
-    //cas52();
-    testeFloat();
+
+    iirFormaDireta2();
+    return;
 }
 
 

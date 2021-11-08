@@ -1,7 +1,7 @@
 ******************************************************************************
               TMS320C55x Linker PC v4.4.1                      
 ******************************************************************************
->> Linked Mon Nov 08 00:31:38 2021
+>> Linked Mon Nov 08 00:37:17 2021
 
 OUTPUT FILE NAME:   <hello_word.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 00005e9b
@@ -14,9 +14,9 @@ MEMORY CONFIGURATION
 ----------------------  --------  ---------  --------  --------  ----  --------
   MMR                   00000000   000000c0  00000000  000000c0  RWIX
   DARAM0                000000c0   00001f40  00000bec  00001354  RWIX
-  DARAM1                00002000   00002000  00001ffd  00000003  RWIX
+  DARAM1                00002000   00002000  00002000  00000000  RWIX
   DARAM2                00004000   00002000  00002000  00000000  RWIX
-  DARAM3                00006000   00002000  0000013b  00001ec5  RWIX
+  DARAM3                00006000   00002000  00000141  00001ebf  RWIX
   DARAM4                00008000   00002000  00000400  00001c00  RWIX
   DARAM5                0000a000   00002000  0000064c  000019b4  RWIX
   DARAM6                0000c000   00002000  00000000  00002000  RWIX
@@ -67,14 +67,14 @@ section   page  orgn(bytes) orgn(words) len(bytes) len(words)   input sections
 *            0   [ 00000ab0 ]  00000558          *   00000100   UNINITIALIZED
                  [ 00000ab0 ]  00000558          *   00000100   --HOLE--
 
-.text.1      0     00002000  [ 00001000 ] 00001ffd          *   
+.text.1      0     00002000  [ 00001000 ] 00002000          *   
                    00002000  [ 00001000 ] 00001330          *   rts55.lib : _printfi.obj (.text)
-                   00003330  [ 00001998 ] 000006ce          *   hello_world.obj (.text)
-                   000039fe  [ 00001cff ] 0000046c          *   rts55.lib : lowlev.obj (.text)
-                   00003e6a  [ 00001f35 ] 00000158          *             : mpyd.obj (.text)
-                   00003fc2  [ 00001fe1 ] 00000038          *             : exit.obj (.text)
-                   00003ffa  [ 00001ffd ] 00000002          *             : vectors.obj (.text)
-                   00003ffc  [ 00001ffe ] 00000001          *   --HOLE-- [fill = 20]
+                   00003330  [ 00001998 ] 000006d7          *   hello_world.obj (.text)
+                   00003a07  [ 00001d03+] 0000046c          *   rts55.lib : lowlev.obj (.text)
+                   00003e73  [ 00001f39+] 00000158          *             : mpyd.obj (.text)
+                   00003fcb  [ 00001fe5+] 0000002a          *             : fixdi.obj (.text)
+                   00003ff5  [ 00001ffa+] 0000000a          *             : remove.obj (.text)
+                   00003fff  [ 00001fff ] 00000001          *   --HOLE-- [fill = 20]
 
 .text.2      0     00004000  [ 00002000 ] 00002000          *   
                    00004000  [ 00002000 ] 00000465          *   rts55.lib : trgdrv.obj (.text)
@@ -107,11 +107,11 @@ section   page  orgn(bytes) orgn(words) len(bytes) len(words)   input sections
                    00005ee7  [ 00002f73+] 0000004b          *             : printf.obj (.text)
                    00005f32  [ 00002f99 ] 0000004b          *             : remli.obj (.text)
                    00005f7d  [ 00002fbe+] 00000048          *             : divli.obj (.text)
-                   00005fc5  [ 00002fe2+] 0000002a          *             : fixdi.obj (.text)
-                   00005fef  [ 00002ff7+] 00000010          *             : _lock.obj (.text)
+                   00005fc5  [ 00002fe2+] 00000038          *             : exit.obj (.text)
+                   00005ffd  [ 00002ffe+] 00000002          *             : vectors.obj (.text)
                    00005fff  [ 00002fff ] 00000001          *   --HOLE-- [fill = 20]
 
-.text.3      0     00006000  [ 00003000 ] 0000013b          *   
+.text.3      0     00006000  [ 00003000 ] 00000141          *   
                    00006000  [ 00003000 ] 00000040          *   rts55.lib : args_main.obj (.text)
                    00006040  [ 00003020 ] 0000003f          *             : memcpy.obj (.text)
                    0000607f  [ 0000303f+] 0000002a          *             : udiv.obj (.text)
@@ -119,11 +119,11 @@ section   page  orgn(bytes) orgn(words) len(bytes) len(words)   input sections
                    000060c8  [ 00003064 ] 0000001a          *             : isinf.obj (.text)
                    000060e2  [ 00003071 ] 00000014          *             : subd.obj (.text)
                    000060f6  [ 0000307b ] 00000013          *             : lmpy.obj (.text)
-                   00006109  [ 00003084+] 00000010          *             : memset.obj (.text)
-                   00006119  [ 0000308c+] 00000010          *             : negd.obj (.text)
-                   00006129  [ 00003094+] 0000000a          *             : remove.obj (.text)
-                   00006133  [ 00003099+] 00000007          *             : exit.obj (.text:CIO_breakpoint)
-                   0000613a  [ 0000309d ] 00000001          *   --HOLE-- [fill = 20]
+                   00006109  [ 00003084+] 00000010          *             : _lock.obj (.text)
+                   00006119  [ 0000308c+] 00000010          *             : memset.obj (.text)
+                   00006129  [ 00003094+] 00000010          *             : negd.obj (.text)
+                   00006139  [ 0000309c+] 00000007          *             : exit.obj (.text:CIO_breakpoint)
+                   00006140  [ 000030a0 ] 00000001          *   --HOLE-- [fill = 20]
 
 .sysmem      0   [ 00008000 ]  00004000          *   00000200   UNINITIALIZED
                  [ 00008000 ]  00004000          *   00000200   --HOLE--
@@ -156,7 +156,7 @@ byte addr   word addr   name
             00005000    .bss
             00004000    .data
 ffffffff                .text
-00006134                C$$EXIT
+0000613a                C$$EXIT
 0000584f                C$$IO$$
 000060f6                I$$LMPY
 0000607f                I$$UDIV
@@ -203,7 +203,7 @@ ffffffff                ___text__
 00005702                __doflush
             00005320    __dtors_ptr
 000053eb                __eqld
-00005fc5                __fixdi
+00003fcb                __fixdi
 00005be9                __fixdli
 00005cc3                __fltlid
 00005a1b                __frcmpyd
@@ -215,16 +215,16 @@ ffffffff                ___text__
 00005309                __leqd
             0000531a    __lock
 000052c1                __lssd
-00003e6a                __mpyd
+00003e73                __mpyd
 000060f6                __mpyli
 00004e8a                __mpylli
-00006119                __negd
+00006129                __negd
 0000528d                __neqd
-00005ffd                __nop
+00006117                __nop
 0000315c                __printfi
 00005607                __rd_ok
-00005ff6                __register_lock
-00005fef                __register_unlock
+00006110                __register_lock
+00006109                __register_unlock
 00005f32                __remli
 00004e5b                __remlli
 00006094                __remu
@@ -238,8 +238,8 @@ ffffffff                ___text__
             0000531c    __unlock
 000055a1                __wrt_ok
             00005107    _a
-00006133                _abort
-00003d94                _add_device
+00006139                _abort
+00003d9d                _add_device
 00005de7                _atoi
 00005c58                _auto_init
             00005100    _b
@@ -247,11 +247,11 @@ ffffffff                ___text__
 00004b8b                _calloc
 000033bb                _cas51
 00004b87                _chkheap
-00003d37                _close
-00003fc2                _exit
+00003d40                _close
+00005fc5                _exit
 00005d25                _fclose
 0000575b                _fflush
-00003d2e                _find_registered_device
+00003d37                _find_registered_device
 00005261                _fopen
 00005996                _fputc
 00005477                _fputs
@@ -261,34 +261,34 @@ ffffffff                ___text__
 00005e43                _fseek
 0000343f                _get_at
 00004000                _getenv
-00003759                _iirFormaDireta1
+00003762                _iirFormaDireta1
 00003455                _iirFormaDireta2
 00005854                _iircas51
-00003cd7                _lseek
+00003ce0                _lseek
 00005b04                _ltoa
-000039f5                _main
+000039fe                _main
 00004908                _malloc
 00004af8                _max_free
 000060a9                _memccpy
 00006040                _memcpy
-00006109                _memset
+00006119                _memset
 000048bc                _minit
 00003330                _multiplyQ15
-00003c43                _open
+00003c4c                _open
 00005ee7                _printf
 00005996                _putc
 00005a0e                _putchar
 0000557f                _puts
-00003bb2                _read
+00003bbb                _read
 00005d86                _readmsg
 000049b4                _realloc
-00006129                _remove
-00003b85                _remove_device
-00003b3b                _rename
+00003ff5                _remove
+00003b8e                _remove_device
+00003b44                _rename
 00005655                _setvbuf
 0000337f                _sumQ15
-00003b0d                _unlink
-000039fe                _write
+00003b16                _unlink
+00003a07                _write
 000057ac                _writemsg
             00005080    _x_random
             00005000    _x_sin
@@ -325,20 +325,21 @@ byte addr   word addr   name
 000033bb                _cas51
 0000343f                _get_at
 00003455                _iirFormaDireta2
-00003759                _iirFormaDireta1
-000039f5                _main
-000039fe                _write
-00003b0d                _unlink
-00003b3b                _rename
-00003b85                _remove_device
-00003bb2                _read
-00003c43                _open
-00003cd7                _lseek
-00003d2e                _find_registered_device
-00003d37                _close
-00003d94                _add_device
-00003e6a                __mpyd
-00003fc2                _exit
+00003762                _iirFormaDireta1
+000039fe                _main
+00003a07                _write
+00003b16                _unlink
+00003b44                _rename
+00003b8e                _remove_device
+00003bbb                _read
+00003c4c                _open
+00003ce0                _lseek
+00003d37                _find_registered_device
+00003d40                _close
+00003d9d                _add_device
+00003e73                __mpyd
+00003fcb                __fixdi
+00003ff5                _remove
 00004000                _getenv
 00004062                _HOSTwrite
 000040dc                _HOSTunlink
@@ -403,10 +404,7 @@ byte addr   word addr   name
 00005ee7                _printf
 00005f32                __remli
 00005f7d                __divli
-00005fc5                __fixdi
-00005fef                __register_unlock
-00005ff6                __register_lock
-00005ffd                __nop
+00005fc5                _exit
 00006000                __args_main
 00006040                _memcpy
 0000607f                I$$UDIV
@@ -418,11 +416,13 @@ byte addr   word addr   name
 000060e2                __subd
 000060f6                I$$LMPY
 000060f6                __mpyli
-00006109                _memset
-00006119                __negd
-00006129                _remove
-00006133                _abort
-00006134                C$$EXIT
+00006109                __register_unlock
+00006110                __register_lock
+00006117                __nop
+00006119                _memset
+00006129                __negd
+00006139                _abort
+0000613a                C$$EXIT
             00004000    .data
             00004000    ___data__
             00004000    ___edata__

@@ -109,7 +109,7 @@ void iirFormaDireta2() {
         v[i] = sumQ15(v[i], multiplyQ15(-a[5], get_at(i - 5, v)));
         v[i] = sumQ15(v[i], multiplyQ15(-a[6], get_at(i - 6, v)));
 
-        y[i] = get_at(i, v);
+        y[i] = multiplyQ15(b[0], get_at(i, v));
         y[i] = sumQ15(y[i], multiplyQ15(b[1], get_at(i - 1, v)));
         y[i] = sumQ15(y[i], multiplyQ15(b[2], get_at(i - 2, v)));
         y[i] = sumQ15(y[i], multiplyQ15(b[3], get_at(i - 3, v)));

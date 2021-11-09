@@ -243,19 +243,22 @@ void iirParalela(DATA signal[128])
         }
     }
     return;
-}
+2}
 
 void main()
 {
-    /*iirFormaDireta1(x_sin);
-    iirFormaDireta2(x_sin);
+    //iirFormaDireta1(x_sin);
+    //iirFormaDireta2(x_sin);
     iirFormaDireta1(x_random);
     iirFormaDireta2(x_random);
-    iirCascata(x_sin);
+    //iirCascata(x_sin);
     iirCascata(x_random);
-    iirFormaTransposta2(x_sin);
-    iirFormaTransposta1(x_sin);*/
-    iirParalela(x_sin);
+    //iirFormaTransposta2(x_sin);
+    //iirFormaTransposta1(x_sin);
+    //iirParalela(x_sin);
+    iirFormaTransposta2(x_random);
+    iirFormaTransposta1(x_random);
+    iirParalela(x_random);
     return;
 }
 

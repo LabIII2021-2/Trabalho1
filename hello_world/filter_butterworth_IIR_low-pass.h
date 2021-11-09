@@ -42,4 +42,33 @@ DATA hcas[15] = {
     19293, //a2
 };
 
+
+// Filtro paralelo 1
+DATA hpar1[15] = {
+    -14765, //b0
+    1943, //b1
+    0, //b2
+    0, //a1
+    567, //a2
+};
+
+// Filtro paralelo 2
+DATA hpar2[15] = {
+    -3120, //b0
+    -1292, //b1
+    0, //b2
+    0, //a1
+    5622, //a2
+};
+
+// Filtro paralelo 3
+DATA hpar3[15] = {
+    612, //b0
+    -469, //b1
+    0, //b2
+    0, //a1
+    19293, //a2
+};
+
+
 #endif

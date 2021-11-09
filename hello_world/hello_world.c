@@ -107,14 +107,158 @@ void iirFormaDireta2(DATA signal[128]) {
     return;
 }
 
+
+void iirFormaTransposta1(DATA signal[128])
+{
+    DATA r[128] = {0};
+    int i;
+
+    DATA s[12] = {0};
+    DATA temp_s[12] = {0};
+
+    for (i = 0; i < 128; i++)
+    {
+
+        short x_plus_s1 = sumQ15(signal[i], s[0]);
+
+
+        temp_s[0] = sumQ15(multiplyQ15(x_plus_s1, -a[1]), s[1]);
+        temp_s[1] = sumQ15(multiplyQ15(x_plus_s1, -a[2]), s[2]);
+        temp_s[2] = sumQ15(multiplyQ15(x_plus_s1, -a[3]), s[3]);
+        temp_s[3] = sumQ15(multiplyQ15(x_plus_s1, -a[4]), s[4]);
+        temp_s[4] = sumQ15(multiplyQ15(x_plus_s1, -a[5]), s[5]);
+        temp_s[5] = multiplyQ15(x_plus_s1, -a[6]);
+
+        temp_s[6] = sumQ15(multiplyQ15(x_plus_s1, b[1]), s[7]);
+        temp_s[7] = sumQ15(multiplyQ15(x_plus_s1, b[2]), s[8]);
+        temp_s[8] = sumQ15(multiplyQ15(x_plus_s1, b[3]), s[9]);
+        temp_s[9] = sumQ15(multiplyQ15(x_plus_s1, b[4]), s[10]);
+        temp_s[10] = sumQ15(multiplyQ15(x_plus_s1, b[5]), s[11]);
+        temp_s[11] = multiplyQ15(x_plus_s1, b[6]);
+
+        r[i] = sumQ15(multiplyQ15(x_plus_s1, b[0]), s[6]);
+
+        s[0] = temp_s[0];
+        s[1] = temp_s[1];
+        s[2] = temp_s[2];
+        s[3] = temp_s[3];
+        s[4] = temp_s[4];
+        s[5] = temp_s[5];
+        s[6] = temp_s[6];
+        s[7] = temp_s[7];
+        s[8] = temp_s[8];
+        s[9] = temp_s[9];
+        s[10] = temp_s[10];
+        s[11] = temp_s[11];
+
+    }
+    return;
+}
+
+void iirFormaTransposta2(DATA signal[128]) {
+    DATA v[128] = {0};
+    DATA y[128] = {0};
+    int i = 0;
+    for(i = 0; i < 128; i++) {
+
+        if (i > 4) {
+            v[i - 5] = sumQ15(multiplyQ15(b[6], get_at(i - 6, signal)), multiplyQ15(a[6], get_at(i - 6, y)));
+        }
+        if (i > 3) {
+            v[i - 4] = sumQ15(sumQ15(multiplyQ15(b[5], get_at(i - 5, signal)), multiplyQ15(-a[5], get_at(i - 5, y))), get_at(i - 5, v));
+        }
+        if (i > 2) {
+            v[i - 3] = sumQ15(sumQ15(multiplyQ15(b[4], get_at(i - 4, signal)), multiplyQ15(-a[4], get_at(i - 4, y))), get_at(i - 4, v));
+        }
+        if (i > 1) {
+            v[i - 2] = sumQ15(sumQ15(multiplyQ15(b[3], get_at(i - 3, signal)), multiplyQ15(-a[3], get_at(i - 3, y))), get_at(i - 3, v));
+        }
+        if (i > 0) {
+            v[i - 1] = sumQ15(sumQ15(multiplyQ15(b[2], get_at(i - 2, signal)), multiplyQ15(-a[2], get_at(i - 2, y))), get_at(i - 2, v));
+        }
+        v[i] = sumQ15(sumQ15(multiplyQ15(b[1], get_at(i - 1, signal)), multiplyQ15(-a[1], get_at(i - 1, y))), get_at(i - 1, v));
+
+        y[i] = sumQ15(multiplyQ15(b[0], get_at(i, signal)), get_at(i, v));
+
+    }
+    return;
+}
+
+void iirParalela(DATA signal[128])
+{
+    int i;
+    //primeira seção
+    DATA dbuffer[5] = {0};
+    DATA *dp = dbuffer;
+    DATA r[128] = { 0 };
+    DATA r2[128] = { 0 };
+
+    iircas51(signal, hpar1, r, dp, 1, 128);
+
+    //segunda seção
+    DATA dbuffer2[5] = { 0 };
+    DATA *dp2 = dbuffer2;
+
+
+    iircas51(signal, hpar2, r2, dp2, 1, 128);
+
+    for(i = 0; i < 128; i++) {
+           r[i] = sumQ15(r[i], r2[i]);
+           r2[i] = 0;
+    }
+
+    //terceira seção
+    DATA dbuffer3[5] = { 0 };
+    DATA *dp3 = dbuffer3;
+
+    iircas51(signal, hpar3, r2, dp3, 1, 128);
+
+    for(i = 0; i < 128; i++) {
+        r[i] = sumQ15(r[i], r2[i]);
+               r2[i] = 0;
+        }
+
+    //termo constante
+
+
+
+    short k_term = 17304;
+
+    for(i = 0; i < 128; i++) {
+            r2[i] = multiplyQ15(signal[i], k_term);
+    }
+
+    for(i = 0; i < 128; i++) {
+        r[i] = sumQ15(r[i], r2[i]);
+               r2[i] = 0;
+    }
+
+    short j;
+
+    // Somando as diferentes seções
+    for(i = 0; i < 128; i++) {
+        short aux = r[i];
+        for (j = 0; j < 31; j++) {
+            r[i] = sumQ15(r[i], aux);
+        }
+    }
+    return;
+2}
+
 void main()
 {
-    iirFormaDireta1(x_sin);
-    iirFormaDireta2(x_sin);
+    //iirFormaDireta1(x_sin);
+    //iirFormaDireta2(x_sin);
     iirFormaDireta1(x_random);
     iirFormaDireta2(x_random);
-    iirCascata(x_sin);
+    //iirCascata(x_sin);
     iirCascata(x_random);
+    //iirFormaTransposta2(x_sin);
+    //iirFormaTransposta1(x_sin);
+    //iirParalela(x_sin);
+    iirFormaTransposta2(x_random);
+    iirFormaTransposta1(x_random);
+    iirParalela(x_random);
     return;
 }
 
